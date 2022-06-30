@@ -38,15 +38,21 @@ let torontoData = "https://raw.githubusercontent.com/MXV0921/Mapping_Earthquakes
 let airportData = "https://raw.githubusercontent.com/MXV0921/Mapping_Earthquakes/main/majorAirports.json";
 
 
+
+// Create a style for the lines.
+let myStyle = {
+  color: "#ffffa1",
+  weight: 2
+}
+
 // Grabbing our GeoJSON data.
 d3.json(torontoData).then(function(data) {
   console.log(data);
 // Creating a GeoJSON layer with the retrieved data.
-L.geoJSON(data, {
-  color: "#ffffal",
-  weight: 2,
+L.geoJson(data, {
+  style: myStyle,
   onEachFeature: function(feature, layer) {
-    layer.bindPop("<h3> Airline: " + feature.properties.airline + "</h3> <hr> <h3> Destination: " + feature.properties.dst + "</h3>");
+    layer.bindPopup("<h3> Airline: " + feature.properties.airline + "</h3> <hr><h3> Destination: " + feature.properties.dst + "</h3>");
   }
 })
 .addTo(map);
