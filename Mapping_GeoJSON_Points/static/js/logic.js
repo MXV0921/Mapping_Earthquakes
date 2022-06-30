@@ -25,7 +25,7 @@ let baseMaps = {
 let map = L.map('mapid', {
   center: [30, 30],
   zoom: 2,
-  layers: [streets,dark]
+  layers: [streets]
 })
 
 // Pass our map layers into our layers control and add the layers control to the map.
@@ -40,8 +40,8 @@ let airportData = "https://raw.githubusercontent.com/MXV0921/Mapping_Earthquakes
 d3.json(airportData).then(function(data) {
   console.log(data);
   // Creating a geoJSON layer with retrieved data/.
-  L.geoJSON(data)
-  .bindPopup("<h2> Airport Code: " + feature.properties.faa + "</h2>")
-  .addTo(map)
+  L.geoJSON(data, {
+    onEachFeature: function(feature, layer) {
+  layer.bindPopup("<h2> Airport Code: " + feature.properties.faa + "</h2> <hr> <h3> Airport Name:" + feature.properties.name )}})
+.addTo(map)
 });
-
