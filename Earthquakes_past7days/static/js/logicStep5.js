@@ -126,13 +126,13 @@ pointToLayer: function(feature, latlng) {
         "#ea2c2c"
       ];
   
-      // loop through our density intervals and generate a label with a colored square for each interval
-      for (var i = 0; i < magnitudes.length; i++) {
-        console.log(colors[i]);
-          div.innerHTML +=
-          "<i style='background: " + colors[i] + "'></i> " +
-          magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
-      }
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < magnitudes.length; i++) {
+      console.log(colors[i]);
+        div.innerHTML +=
+        "<i style='background: " + colors[i] + "'></i> " +
+        magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
+    }
       
       return div;
   };
