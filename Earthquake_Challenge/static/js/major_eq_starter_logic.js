@@ -15,6 +15,13 @@ let satelliteStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/sate
 	accessToken: API_KEY
 });
 
+// Deliverable 3, add a third map.
+let dark = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+	maxZoom: 18,
+	accessToken: API_KEY
+});
+
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
 	center: [40.7, -94.5],
@@ -25,7 +32,8 @@ let map = L.map('mapid', {
 // Create a base layer that holds all three maps.
 let baseMaps = {
   "Streets": streets,
-  "Satellite": satelliteStreets
+  "Satellite": satelliteStreets,
+  "Dark": dark
 };
 
 // 1. Add a 3rd layer group for the major earthquake data.
@@ -128,14 +136,14 @@ L.control.layers(baseMaps, overlays).addTo(map);
   };
   // 5. Change the color function to use three colors for the major earthquakes based on the magnitude of the earthquake.
   function majorGetColor(magnitude) {
-    if (magnitude > 6) {
+    if (magnitude >= 6) {
       return "#ea2c2c";
     }
-    if (magnitude > 5) {
+    if (magnitude >= 5) {
       return "#ea822c";
     }
-    if (magintude < 5) {
-    return "#98ee00";
+    if (magnitude < 5) {
+    return "#eecc00";
   }
   };
   // 6. Use the function that determines the radius of the earthquake marker based on its magnitude.
@@ -155,20 +163,14 @@ L.geoJson(data, {
           return L.circleMarker(latlng);
         },
     style: majorStyleInfo,
-      get style() {
-        return this._style;
-      },
-      set style(value) {
-        this.style = value;
-      },
-    // We create a popup for each circleMarker to display the magnitude and location of the earthquake
+    // // We create a popup for each circleMarker to display the magnitude and location of the earthquake
     //  after the marker has been created and styled.
-        onEachFeature: function(feature, layer) {
-          layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
-        }
-      }).addTo(majorEarthquakes);
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+      }
+  }).addTo(majorEarthquakes);
     // 8. Add the major earthquakes layer to the map.
-      majorEarthquakes.addTo(map);
+  majorEarthquakes.addTo(map);
   // 9. Close the braces and parentheses for the major earthquake data.
   });
 
